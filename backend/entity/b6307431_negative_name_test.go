@@ -18,16 +18,22 @@ type Empolyee struct {
 func TestEmpolyeeValidate(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 
-	t.Run("correct format" , func(t *testing.T) {
+	g.Expect(err).To(BeNil())
+
+
+	t.Run("Name cannot be blank" , func(t *testing.T) {
 		emp := Employee
-			Name: "Thananya",
+			Name: "", //ผิด
 			Email: "thny@gmail.com",
 			EmployeeID: "J01234567",
 	})
 	ok, err := govalidator.ValidateStruct(emp)
 
-	g.Expect(ok).To(BeTrue())
+	g.Expect(ok).NotTo(BeTrue())
 
-	g.Expect(err).To(BeNil())
+	g.Expect(err).ToNot(BeNil())
 
+	g.Expect(err.Error()).To(Equal("Name cannot be blank"))
+
+		
 }
